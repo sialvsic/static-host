@@ -25,12 +25,23 @@ app.use(async (ctx, next) => {
 
 // response
 
-app.use(serve("./public"));
-
-app.use(async ctx => {
+app.use(async (ctx, next) => {
   console.log("3");
-  ctx.body = "Hello World";
+  // ctx.body = "Hello World";
+
+  console.log(ctx.path);
+
+  if (ctx.path === "/fire.png") {
+    await new Promise((resolve, reject) => {
+      setTimeout(() => {
+        resolve();
+      }, 2000);
+    });
+  }
+  await next();
   console.log("4");
 });
+
+app.use(serve("./public"));
 
 app.listen(3000);
